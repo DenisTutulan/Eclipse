@@ -3,25 +3,29 @@ name: Java CI
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout del repositorio
+    - name: Descargar repositorio
       uses: actions/checkout@v3
 
-    - name: Configurar JDK
+    - name: Instalar JDK
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Compilar el proyecto
-      run: mvn -B package --file pom.xml
+    - name: Compilar archivos Java
+      run: |
+        mkdir -p out
+        javac -d out $(find . -name "*.java")
 
-    - name: Ejecutar pruebas unitarias
-      run: mvn test
+    - name: Ejecutar pruebas JUnit
+      run: |
+        wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.1/junit-platform-console-standalone-1.10.1.jar
+        java -jar junit-platform-console-standalone-1.10.1.jar \
+          --class-path out \
+          --scan-class-path
