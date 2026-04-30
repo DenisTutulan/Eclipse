@@ -39,7 +39,7 @@ public class InventarioTest {
     @Test
     void testCalcularValorInventario() {
         Inventario inventario = new Inventario();
-        inventario.agregarProducto(new Producto("A001", "Teclado", 2, 50.0));
+        inventario.agregarProducto(new Producto("A001", "Microfono", 2, 50.0));
 
         double valorEsperado = 100.0;
 
